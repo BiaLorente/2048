@@ -12,6 +12,22 @@ import java.util.Random;
 public class jogo {
     public int vitoria=0;
     public int derrota=0;
+  
+    
+    public void inicializar(int v[][])
+    {
+       int i=0,j=0;
+       for(i=0;i<4;i++)
+       {
+           for(j=0;j<4;j++)
+           {
+               v[i][j]=0;
+           }
+       }
+       gerar_random(v);
+       gerar_random(v);
+       
+    }
     
     public void gerar_random(int v[][])
     {

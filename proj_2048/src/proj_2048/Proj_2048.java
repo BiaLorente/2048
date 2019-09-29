@@ -18,9 +18,11 @@ public class Proj_2048{
         int matriz[][]= new int[4][4];
         int i,j;
         long k=5;
-        inicio inicio= new inicio();
-        principal principal = new principal();
-        inicio.setVisible(true);
+        //inicio inicio= new inicio();
+       // principal principal = new principal();
+        //inicio.setVisible(true);
+        jogoprincipal a= new jogoprincipal();
+        a.setVisible(true);
         try
         {
         Thread.sleep(1000);
@@ -29,8 +31,8 @@ public class Proj_2048{
                 {
                     
                 }
-        inicio.dispose();
-        principal.setVisible(true);
+       // inicio.dispose();
+       // principal.setVisible(true);
         for(i=0;i<4;i++)
         {
             for(j=0;j<4;j++)
