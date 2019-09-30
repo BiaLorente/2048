@@ -124,9 +124,8 @@ public class jogoprincipal extends JFrame implements KeyListener {
                 aux = jogo.movimento_possivel(matriz, 1);
                 if (aux != 1) {
                     jogo.score = score;
-                    jogo.mover_cima(matriz);
-                    jogo.gerar_random(matriz);
-                    atualizar();
+                    mover_cima(matriz);
+                   
                 }
             }
         });
@@ -135,12 +134,11 @@ public class jogoprincipal extends JFrame implements KeyListener {
             public void mouseClicked(MouseEvent e) {
                 int aux;
                 int score = jogo.score;
-                aux = jogo.movimento_possivel(matriz, 1);
+                aux = jogo.movimento_possivel(matriz, 2);
                 if (aux != 1) {
                     jogo.score = score;
-                    jogo.mover_baixo(matriz);
-                    jogo.gerar_random(matriz);
-                    atualizar();
+                    mover_baixo(matriz);
+
                 }
 
             }
@@ -153,9 +151,8 @@ public class jogoprincipal extends JFrame implements KeyListener {
                 aux = jogo.movimento_possivel(matriz, 4);
                 if (aux != 1) {
                     jogo.score = score;
-                    jogo.mover_dir(matriz);
-                    jogo.gerar_random(matriz);
-                    atualizar();
+                    mover_dir(matriz);
+
                 }
             }
         });
@@ -167,10 +164,10 @@ public class jogoprincipal extends JFrame implements KeyListener {
                 aux = jogo.movimento_possivel(matriz, 3);
                 if (aux != 1) {
                     jogo.score = score;
-                    jogo.mover_esq(matriz);
-                    //mover_esq(matriz);
-                      jogo.gerar_random(matriz);
-                     atualizar();
+                    //jogo.mover_esq(matriz);
+                    mover_esq(matriz);
+                      //jogo.gerar_random(matriz);
+                    // atualizar();
 
                 }
 
@@ -187,6 +184,7 @@ public class jogoprincipal extends JFrame implements KeyListener {
                 jogo.score = 0;
                 jogo.vitoria = 0;
                 jogo.derrota = 0;
+                numero_pontuacao.setForeground(Color.white);
                 atualizar();
 
             }
@@ -259,7 +257,17 @@ public class jogoprincipal extends JFrame implements KeyListener {
         jogo.score = score;
         numero_pontuacao.setText(Integer.toString(jogo.score));
         if (jogo.derrota == 1) {
-            System.out.print("cccccc");
+            this.dispose();
+            derrota derrota = new derrota();
+           jogo.score = 0;
+            jogo.vitoria = 0;
+            jogo.derrota = 0;
+            try {
+                home.parar();
+            } catch (Exception e) {
+
+            }
+            
         }
 
         if (jogo.vitoria == 1) {
@@ -368,7 +376,311 @@ public class jogoprincipal extends JFrame implements KeyListener {
 
         }
     }
+    
+    
+    
+     public void mover_dir(int v[][]) {
+                          Runnable g = new Runnable() {
+            public void run() {
+        int i, j, k, ver = -1, l = 0, g = 0,delay=70;
 
+        posicao_M[] localizacao = new posicao_M[16];
+        for (i = 0; i < 16; i++) {
+            localizacao[i] = new posicao_M();
+
+        }
+
+        for (i = 0; i < 4; i++) {
+            for (j = 1; j < 4; j++) {
+                if (v[i][j] != 0) {
+                    for (k = j; k > 0; k--) {
+                        if (v[i][k - 1] == 0) {
+                            v[i][k - 1] = v[i][k];
+                            v[i][k] = 0;
+                            atualizar();
+                            try {
+                                Thread.sleep(delay);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            if(delay>30)
+                            {
+                                delay-=10;
+                            }
+                        } else {
+                            if (v[i][k] == v[i][k - 1]) {
+                                for (g = 0; g < l; g++) {
+                                    if (i == localizacao[g].i && k == localizacao[g].j) {
+                                        ver = 1;
+                                    }
+
+                                }
+                                if (ver != 1) {
+                                    localizacao[l].alterar(i, k - 1);
+                                    l++;
+                                    localizacao[l].alterar(i, k);
+                                    l++;
+                                    jogo.score += v[i][k - 1];
+                                    v[i][k - 1] *= 2;
+                                    v[i][k] = 0;
+                                }
+
+                            }
+                        }
+                        ver = -1;
+                    }
+                }
+            }
+        }
+                        try {
+                    Thread.sleep(150);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                                      jogo.gerar_random(matriz);
+                     atualizar();
+        
+                    }
+
+        };
+        Thread f = new Thread(g);
+        f.start();
+
+    }
+    
+    
+    
+    
+    
+    
+     public void mover_esq(int v[][]) {
+                 Runnable g = new Runnable() {
+            public void run() {
+        int i, j, k, ver = -1, l = 0, g = 0,delay=70;
+
+        posicao_M[] localizacao = new posicao_M[16];
+        for (i = 0; i < 16; i++) {
+            localizacao[i] = new posicao_M();
+
+        }
+
+        for (i = 0; i < 4; i++) {
+            for (j = 2; j >= 0; j--) {
+                if (v[i][j] != 0) {
+                    for (k = j; k < 3; k++) {
+                        if (v[i][k + 1] == 0) {
+                            v[i][k + 1] = v[i][k];
+                            v[i][k] = 0;
+                            atualizar();
+                            try {
+                                Thread.sleep(delay);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            if(delay>30)
+                            {
+                                delay-=10;
+                            }
+                        } else {
+
+                            if (v[i][k] == v[i][k + 1]) {
+                                for (g = 0; g < l; g++) {
+                                    if (i == localizacao[g].i && k == localizacao[g].j) {
+                                        ver = 1;
+                                    }
+
+                                }
+                                if (ver != 1) {
+                                    localizacao[l].alterar(i, k + 1);
+                                    l++;
+                                    localizacao[l].alterar(i, k);
+                                    l++;
+                                    jogo.score += v[i][k + 1];
+                                    v[i][k + 1] *= 2;
+                                    v[i][k] = 0;
+                                }
+                            }
+                        }
+                        ver = -1;
+                    }
+                }
+            }
+        }
+                try {
+                    Thread.sleep(150);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                                      jogo.gerar_random(matriz);
+                     atualizar();
+        
+                    }
+
+        };
+        Thread f = new Thread(g);
+        f.start();
+    }
+    
+    
+    
+    
+     public void mover_cima(int v[][]) {
+            Runnable g = new Runnable() {
+            public void run() {
+        int i, j, k, ver = -1, l = 0, g = 0,delay=70;
+
+        posicao_M[] localizacao = new posicao_M[16];
+        for (i = 0; i < 16; i++) {
+            localizacao[i] = new posicao_M();
+
+        }
+
+        for (j = 0; j < 4; j++) {
+            for (i = 1; i < 4; i++) {
+                if (v[i][j] != 0) {
+                    for (k = i; k > 0; k--) {
+                        if (v[k - 1][j] == 0) {
+                            v[k - 1][j] = v[k][j];
+                            v[k][j] = 0;
+                            atualizar();
+                            try {
+                                Thread.sleep(delay);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            if(delay>30)
+                            {
+                                delay-=10;
+                            }
+                        } else {
+                            if (v[k][j] == v[k - 1][j]) {
+                                for (g = 0; g < l; g++) {
+                                    if (k == localizacao[g].i && j == localizacao[g].j) {
+                                        ver = 1;
+                                    }
+
+                                }
+                                if (ver != 1) {
+                                    localizacao[l].alterar(k - 1, j);
+                                    l++;
+                                    localizacao[l].alterar(k, j);
+                                    l++;
+                                    jogo.score += v[k - 1][j];
+                                    ver = k - 1;
+                                    v[k - 1][j] *= 2;
+                                    v[k][j] = 0;
+                                }
+
+                            }
+                        }
+                        ver = -1;
+                    }
+                }
+            }
+        }
+                        try {
+                    Thread.sleep(150);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                                      jogo.gerar_random(matriz);
+                     atualizar();
+        
+                    
+        
+                            }
+
+        };
+        Thread f = new Thread(g);
+        f.start();
+
+    }
+     
+     
+     
+     
+     
+         public void mover_baixo(int v[][]) {
+                         Runnable g = new Runnable() {
+            public void run() {
+
+        int i, j, k, ver = -1, l = 0, g = 0,delay=70;
+
+        posicao_M[] localizacao = new posicao_M[16];
+        for (i = 0; i < 16; i++) {
+            localizacao[i] = new posicao_M();
+
+        }
+
+        for (j = 0; j < 4; j++) {
+            for (i = 2; i >= 0; i--) {
+                if (v[i][j] != 0) {
+                    for (k = i; k < 3; k++) {
+                        if (v[k + 1][j] == 0) {
+                            v[k + 1][j] = v[k][j];
+                            v[k][j] = 0;
+                            
+                             atualizar();
+                            try {
+                                Thread.sleep(delay);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            if(delay>30)
+                            {
+                                delay-=10;
+                            }
+                            
+                            
+                            
+                        } else {
+                            if (v[k][j] == v[k + 1][j]) {
+
+                                for (g = 0; g < l; g++) {
+                                    if (k == localizacao[g].i && j == localizacao[g].j) {
+                                        ver = 1;
+                                    }
+
+                                }
+
+                                if (ver != 1) {
+                                    localizacao[l].alterar(k + 1, j);
+                                    l++;
+                                    localizacao[l].alterar(k, j);
+                                    l++;
+                                    jogo.score += v[k + 1][j];
+                                    ver = k + 1;
+                                    v[k + 1][j] *= 2;
+                                    v[k][j] = 0;
+                                }
+
+                            }
+                        }
+                        ver = -1;
+                    }
+                }
+            }
+        }
+                                try {
+                    Thread.sleep(150);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                                      jogo.gerar_random(matriz);
+                     atualizar();
+                                    }
+
+        };
+        Thread f = new Thread(g);
+        f.start();
+    }
+     
+     
+     
+    
+    
+    
+    
     public void keyPressed(KeyEvent e) {
         int aux;
         int score = jogo.score;
@@ -376,9 +688,7 @@ public class jogoprincipal extends JFrame implements KeyListener {
             aux = jogo.movimento_possivel(matriz, 1);
             if (aux != 1) {
                 jogo.score = score;
-                jogo.mover_cima(matriz);
-                jogo.gerar_random(matriz);
-                atualizar();
+                mover_cima(matriz);
             }
 
         }
@@ -386,9 +696,8 @@ public class jogoprincipal extends JFrame implements KeyListener {
             aux = jogo.movimento_possivel(matriz, 4);
             if (aux != 1) {
                 jogo.score = score;
-                jogo.mover_dir(matriz);
-                jogo.gerar_random(matriz);
-                atualizar();
+                mover_dir(matriz);
+
             }
         }
 
@@ -396,9 +705,7 @@ public class jogoprincipal extends JFrame implements KeyListener {
             aux = jogo.movimento_possivel(matriz, 3);
             if (aux != 1) {
                 jogo.score = score;
-                jogo.mover_esq(matriz);
-                jogo.gerar_random(matriz);
-                atualizar();
+                mover_esq(matriz);
 
             }
 
@@ -408,9 +715,7 @@ public class jogoprincipal extends JFrame implements KeyListener {
             aux = jogo.movimento_possivel(matriz, 2);
             if (aux != 1) {
                 jogo.score = score;
-                jogo.mover_baixo(matriz);
-                jogo.gerar_random(matriz);
-                atualizar();
+                mover_baixo(matriz);
             }
 
         }

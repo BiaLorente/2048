@@ -21,7 +21,8 @@ public class Proj_2048{
         //inicio inicio= new inicio();
        // principal principal = new principal();
         //inicio.setVisible(true);
-        splash inicio = new splash();
+      // splash inicio = new splash();
+       //derrota a = new derrota();
 
         //jogo a = new jogo();
         try
@@ -32,7 +33,7 @@ public class Proj_2048{
                 {
                     
                 }
-        inicio.dispose();
+        //inicio.dispose();
         jogoprincipal a= new jogoprincipal();
         a.setVisible(true);
         
