@@ -11,27 +11,29 @@ import javax.swing.*;
 
 /**
  *
- * @author 18726430
+ * @author biaml
  */
+
+//Classe splash que simula um loading
 public class splash extends JFrame {
 
-    Icon fundo = new ImageIcon("pre_menu-2048.png");
-    JLabel fundo2 = new JLabel();
-    JLabel sair = new JLabel();
+    Icon fundo = new ImageIcon("pre_menu-2048.png");                            //instancia a imagem
+    JLabel fundo2 = new JLabel();                                               //instancia o label
+    JLabel sair = new JLabel();                                                 //instancia o label sair 
 
     public splash() {
         
-        sair.setSize(50, 50);
+        sair.setSize(50, 50);                                                   //Configura o label sair
         sair.setLocation(630, 0);
         add(sair);
         
-        sair.addMouseListener(new MouseAdapter() {            
+        sair.addMouseListener(new MouseAdapter() {                              //Evento do mouse para sair
             public void mouseClicked(MouseEvent e) {                
                 System.exit(0);
             }            
         });
         
-        fundo2.setSize(669, 334);
+        fundo2.setSize(669, 334);                                               //Configura a imagem no label 
         fundo2.setIcon(fundo);
         add(fundo2);
         

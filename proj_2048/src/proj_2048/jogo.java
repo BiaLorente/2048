@@ -11,12 +11,14 @@ import java.util.Random;
  *
  * @author Wagner
  */
+//
 public class jogo {
 
-    public int vitoria = 0;
-    public int derrota = 0;
-    public int score = 0;
+    public int vitoria = 0;     //flag da vitoria
+    public int derrota = 0;     //flag da derrota
+    public int score = 0;       //pontuacao
 
+    //Inicializa a matriz do jogo zerada e depois chama a funcao "gerar_random" que da duas posições randomicas 
     public void inicializar(int v[][]) {
         int i = 0, j = 0;
         for (i = 0; i < 4; i++) {
@@ -24,11 +26,12 @@ public class jogo {
                 v[i][j] = 0;
             }
         }
-        gerar_random(v);
-        gerar_random(v);
+        gerar_random(v);        //gera em posicao aleatoria o valor 2 ou o 4
+        gerar_random(v);        //gera em posicao aleatoria o valor 2 ou o 4
 
     }
-
+    
+    //Gera em posicoes randomicas da matriz os valores "2" e "4"
     public void gerar_random(int v[][]) {
         int i = 0, j = 0, k = 0, randomposi, randomnum;
         posicao_M[] localizacao = new posicao_M[16];
@@ -248,6 +251,7 @@ public class jogo {
 
     }
 
+    //seta a flag vitoria se tiver o valor 2048 na matriz
     public void vitoria(int v[][]) {
         int i, j;
         for (i = 0; i < 4; i++) {
@@ -259,6 +263,7 @@ public class jogo {
         }
     }
 
+    //seta a flag derrota se nao houver mais nenhum movimento possivel
     public void derrota(int v[][]) {
         if (movimento_possivel(v, 1) == 1 && movimento_possivel(v, 2) == 1 && movimento_possivel(v, 3) == 1 && movimento_possivel(v, 4) == 1) {
             this.derrota = 1;
@@ -266,6 +271,7 @@ public class jogo {
 
     }
 
+    //Funcao que verifica se um movimento é possível,recebendo a matriz observando para que lado é o movimento desejado
     public int movimento_possivel(int v[][], int tipo) {
         int matriz[][] = new int[4][4];
         int i = 0, j = 0, igual = 1;
@@ -275,7 +281,7 @@ public class jogo {
                 matriz[i][j] = v[i][j];
             }
         }
-        switch (tipo) {
+        switch (tipo) {                 //switch case dos movimentos
             case 1:
                 mover_cima(matriz);
                 break;
@@ -292,12 +298,12 @@ public class jogo {
 
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 4; j++) {
-                if (v[i][j] != matriz[i][j]) {
+                if (v[i][j] != matriz[i][j]) {      //se movimento e possivel
                     igual = 0;
                 }
             }
         }
-        return igual;
+        return igual;                               //retorna resultado da flag 
     }
 
 }

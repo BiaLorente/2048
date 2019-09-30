@@ -16,13 +16,15 @@ import javax.sound.sampled.LineUnavailableException;
  *
  * @author Wagner
  */
+
+//Classe que executa e para o som
 public class som {
 
     Clip clip;
 
     public void executaSom(String caminho) {
         try {
-            File audioPath = new File(caminho);
+            File audioPath = new File(caminho);                                 //instancia o arquivo
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioPath);
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);

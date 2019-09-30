@@ -9,6 +9,8 @@ package proj_2048;
  *
  * @author Wagner
  */
+//Classe que inicia o jogo chamando a função splash e depois o menu
+
 public class Proj_2048{
 
     /**
@@ -18,14 +20,11 @@ public class Proj_2048{
         int matriz[][]= new int[4][4];
         int i,j;
         long k=5;
-        //inicio inicio= new inicio();
-       // principal principal = new principal();
-        //inicio.setVisible(true);
-      // splash inicio = new splash();
-       //derrota a = new derrota();
 
-        //jogo a = new jogo();
-        try
+       splash inicio = new splash();   //instancia a splash
+
+
+        try                             //Espera de 1 seg com a splash na tela
         {
         Thread.sleep(1000);
         }
@@ -33,32 +32,9 @@ public class Proj_2048{
                 {
                     
                 }
-        //inicio.dispose();
-        jogoprincipal a= new jogoprincipal();
-        a.setVisible(true);
+        inicio.dispose();              //splash encerra
+         menu start = new menu();       // instancia o menu
         
-        matriz[0][0]=2;
-        matriz[1][0]=2;
-        matriz[2][0]=4;
-        matriz[3][0]=8;
-        
-        for(i=0;i<4;i++)
-        {
-            for(j=0;j<4;j++)
-            {
-                System.out.print("  "+matriz[i][j]);
-            }
-            System.out.println();
-        }
-      System.out.println(); System.out.println();
-      //a.mover_baixo(matriz);
-            for(i=0;i<4;i++)
-        {
-            for(j=0;j<4;j++)
-            {
-                System.out.print("  "+matriz[i][j]);
-            }
-            System.out.println();
-        }
+
 }
 }
