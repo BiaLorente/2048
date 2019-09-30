@@ -31,58 +31,7 @@ public class Proj_2048{
                 {
                     
                 }
-       // inicio.dispose();
-       // principal.setVisible(true);
-        for(i=0;i<4;i++)
-        {
-            for(j=0;j<4;j++)
-            {
-                matriz[i][j]=0;
-            }
-        }
-        jogo jogo= new jogo();
-        jogo.gerar_random(matriz);
-         jogo.gerar_random(matriz);
-          jogo.gerar_random(matriz);
-           jogo.gerar_random(matriz);
-            jogo.gerar_random(matriz);
-
-             matriz[0][0]=0;
-                 matriz[0][1]=4;
-                   matriz[0][2]=2;
-                    matriz[0][3]=2;
-                    
-                         matriz[1][0]=2;
-                 matriz[1][1]=0;
-                   matriz[1][2]=2;
-                    matriz[1][3]=4;
-                    
-            for(i=0;i<4;i++)
-        {
-            for(j=0;j<4;j++)
-            {
-                System.out.print(matriz[i][j]);
-            }
-             System.out.println("\n");
-        }
-             System.out.println("\n");
-              System.out.println("\n");
-               System.out.println("\n");
-               
-            jogo.mover_cima(matriz);
-            
-                    for(i=0;i<4;i++)
-        {
-            for(j=0;j<4;j++)
-            {
-                System.out.print(matriz[i][j]);
-            }
-             System.out.println("\n");
-        }
-            
-        
-        
-        
-    }
+     
     
+}
 }

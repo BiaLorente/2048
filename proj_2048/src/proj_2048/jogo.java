@@ -12,6 +12,7 @@ import java.util.Random;
 public class jogo {
     public int vitoria=0;
     public int derrota=0;
+    public int score=0;
   
     
     public void inicializar(int v[][])
@@ -49,6 +50,8 @@ public class jogo {
                 }
             }
         }
+         if(k>1)
+         {
          Random gerador = new Random();
          randomposi=gerador.nextInt(k-1);
          randomnum=gerador.nextInt(10);
@@ -60,6 +63,22 @@ public class jogo {
          else
          {
              v[localizacao[randomposi].i][localizacao[randomposi].j]=2;
+         }
+         }
+         
+         if(k==1)
+         {
+              Random gerador = new Random();
+              randomnum=gerador.nextInt(10);
+               if(randomnum<=3)
+         {
+             v[localizacao[0].i][localizacao[0].j]=4;
+             
+         }
+         else
+         {
+             v[localizacao[0].i][localizacao[0].j]=2;
+         }
          }
          
         
@@ -88,6 +107,7 @@ public class jogo {
                             {
                                 if(ver!=k && ver+1!=k)
                                 {
+                                score+=v[i][k+1];
                                 ver=k;
                                 v[i][k+1]*=2;
                                 v[i][k]=0;
@@ -123,6 +143,7 @@ public class jogo {
                             {
                                 if(ver!=k && ver+1!=k)
                                 {
+                                     score+=v[k+1][j];
                                 ver=k;
                                 v[k+1][j]*=2;
                                 v[k][j]=0;
@@ -165,6 +186,7 @@ public class jogo {
                             {
                                 if(ver!=k && ver-1!=k)
                                 {
+                                 score+=v[i][k-1];
                                 ver=k;
                                 v[i][k-1]*=2;
                                 v[i][k]=0;
@@ -203,6 +225,7 @@ public class jogo {
                             {
                                 if(ver!=k && ver-1!=k)
                                 {
+                                score+=v[k-1][j];
                                 ver=k;
                                 v[k-1][j]*=2;
                                 v[k][j]=0;
