@@ -21,8 +21,8 @@ public class Proj_2048{
         //inicio inicio= new inicio();
        // principal principal = new principal();
         //inicio.setVisible(true);
-       jogoprincipal a= new jogoprincipal();
-        a.setVisible(true);
+        splash inicio = new splash();
+
         //jogo a = new jogo();
         try
         {
@@ -32,6 +32,10 @@ public class Proj_2048{
                 {
                     
                 }
+        inicio.dispose();
+        jogoprincipal a= new jogoprincipal();
+        a.setVisible(true);
+        
         matriz[0][0]=2;
         matriz[1][0]=2;
         matriz[2][0]=4;

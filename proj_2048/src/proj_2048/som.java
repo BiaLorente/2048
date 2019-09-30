@@ -4,49 +4,43 @@
  * and open the template in the editor.
  */
 package proj_2048;
+
 import java.io.File;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+
 /**
  *
  * @author Wagner
  */
 public class som {
-     public void executaSom(String caminho) {
+
+    Clip clip;
+
+    public void executaSom(String caminho) {
         try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(caminho).getAbsoluteFile());
-            Clip clip = AudioSystem.getClip();
+            File audioPath = new File(caminho);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioPath);
+            clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (Exception ex) {
             System.out.println("Erro ao executar SOM!");
             ex.printStackTrace();
         }
     }
-     
-       public void executaSom(String caminho, int i) {
+
+    public void parar() throws LineUnavailableException {
+        // Clip clip = AudioSystem.getClip();
         try {
-            int a=99999999;
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(caminho).getAbsoluteFile());
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.loop(a);
-        } catch (Exception ex) {
-            System.out.println("Erro ao executar SOM!");
-            ex.printStackTrace();
+            this.clip.stop();
+        } catch (Exception e) {
+
         }
     }
-     
-     
-     
-     
-     public void parar()
-     {
-      //    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(caminho).getAbsoluteFile());
-          //  Clip clip = AudioSystem.getClip();
-           // clip.open(audioInputStream);
-            //clip.stop();
-     }
-    
+
 }
