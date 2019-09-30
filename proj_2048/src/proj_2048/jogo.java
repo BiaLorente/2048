@@ -86,7 +86,14 @@ public class jogo {
     
     public void mover_esq(int v[][])
     {
-        int i,j,k,ver=-1;
+        int i,j,k,ver=-1,l=0,g=0;
+        
+        posicao_M[] localizacao = new posicao_M[16];
+        for(i=0;i<16;i++)
+        {
+        localizacao[i]= new posicao_M();
+        
+        }
         
         for(i=0;i<4;i++)
         {
@@ -103,27 +110,50 @@ public class jogo {
                         }
                         else
                         {
+                           
                             if(v[i][k]==v[i][k+1])
                             {
-                                if(ver!=k && ver+1!=k)
+                                 for(g=0;g<l;g++)
+                            {
+                                if(i==localizacao[g].i && k==localizacao[g].j)
                                 {
+                                    ver=1;
+                                }
+                                
+                            }
+                                if(ver!=1)
+                                {
+                                    localizacao[l].alterar(i, k+1);
+                                    l++;
+                                     localizacao[l].alterar(i, k);
+                                    l++;
                                 score+=v[i][k+1];
-                                ver=k;
                                 v[i][k+1]*=2;
                                 v[i][k]=0;
                                 }
                             }
                         }
+                        ver=-1;
                     }
                 }
             }
-             ver=-1;
         }
     }
     
         public void mover_baixo(int v[][])
     {
-        int i,j,k,ver=-1;
+        
+        
+        int i,j,k,ver=-1,l=0,g=0;
+        
+        posicao_M[] localizacao = new posicao_M[16];
+        for(i=0;i<16;i++)
+        {
+        localizacao[i]= new posicao_M();
+        
+        }
+        
+        
           for(j=0;j<4;j++)
             {
         for(i=2;i>=0;i--)
@@ -141,19 +171,34 @@ public class jogo {
                         {
                             if(v[k][j]==v[k+1][j])
                             {
-                                if(ver!=k && ver+1!=k)
+                                
+                                        for(g=0;g<l;g++)
+                            {
+                                if(k==localizacao[g].i && j==localizacao[g].j)
                                 {
-                                     score+=v[k+1][j];
-                                ver=k;
+                                    ver=1;
+                                }
+                                
+                            }
+                                
+                                if(ver!=1)
+                                {
+                                 localizacao[l].alterar(k+1, j);
+                                    l++;
+                                     localizacao[l].alterar(k, j);
+                                    l++;
+                                score+=v[k+1][j];
+                                ver=k+1;
                                 v[k+1][j]*=2;
                                 v[k][j]=0;
                                 }
+                                
                             }
                         }
+                               ver=-1;
                     }
                 }
             }
-         ver=-1;
         }
     }
     
@@ -165,7 +210,15 @@ public class jogo {
     
     public void mover_dir(int v[][])
     {
-         int i,j,k,ver=-1;
+         int i,j,k,ver=-1,l=0,g=0;
+         
+         posicao_M[] localizacao = new posicao_M[16];
+        for(i=0;i<16;i++)
+        {
+        localizacao[i]= new posicao_M();
+        
+        }
+         
         
         for(i=0;i<4;i++)
         {
@@ -184,19 +237,31 @@ public class jogo {
                         {
                             if(v[i][k]==v[i][k-1])
                             {
-                                if(ver!=k && ver-1!=k)
+                              for(g=0;g<l;g++)
+                            {
+                                if(i==localizacao[g].i && k==localizacao[g].j)
                                 {
+                                    ver=1;
+                                }
+                                
+                            }
+                              if(ver!=1)
+                              {
+                                   localizacao[l].alterar(i, k-1);
+                                    l++;
+                                     localizacao[l].alterar(i, k);
+                                    l++;
                                  score+=v[i][k-1];
-                                ver=k;
                                 v[i][k-1]*=2;
                                 v[i][k]=0;
-                               }
+                              }
+                               
                             }
                         }
+                    ver=-1;
                     }
                 }
             }
-            ver=-1;
         }     
         
     }
@@ -204,7 +269,14 @@ public class jogo {
     
     public void mover_cima(int v[][])
     {
-         int i,j,k,ver=-1;
+         int i,j,k,ver=-1,l=0,g=0;
+         
+         posicao_M[] localizacao = new posicao_M[16];
+        for(i=0;i<16;i++)
+        {
+        localizacao[i]= new posicao_M();
+        
+        }
         
         for(j=0;j<4;j++)
         {
@@ -223,19 +295,32 @@ public class jogo {
                         {
                             if(v[k][j]==v[k-1][j])
                             {
-                                if(ver!=k && ver-1!=k)
+                                    for(g=0;g<l;g++)
+                            {
+                                if(k==localizacao[g].i && j==localizacao[g].j)
                                 {
+                                    ver=1;
+                                }
+                                
+                            }
+                                    if(ver!=1)
+                                    {
+                                  localizacao[l].alterar(k-1, j);
+                                    l++;
+                                     localizacao[l].alterar(k, j);
+                                    l++;
                                 score+=v[k-1][j];
-                                ver=k;
+                                ver=k-1;
                                 v[k-1][j]*=2;
                                 v[k][j]=0;
-                               }
+                                    }
+                               
                             }
                         }
+                                    ver=-1;
                     }
                 }
             }
-            ver=-1;
         }     
         
     }

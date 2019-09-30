@@ -15,22 +15,32 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.*;  
 import javax.swing.border.LineBorder;
+
+
+
 public class jogoprincipal extends JFrame  implements KeyListener{
-    JPanel[][] blocos = new JPanel[4][4];
      JLabel[][] texto = new JLabel[4][4];
      JLabel pontuacao = new JLabel();
      JLabel numero_pontuacao= new JLabel();
+     JLabel secreto= new JLabel();
      jogo jogo = new jogo();
      JButton reiniciar= new JButton();
       int matriz[][]= new int[4][4];
-      Color zero = new Color(220,220,220);
-      
-    
-    
+       Icon zero = new ImageIcon("0.png");
+       Icon dois = new ImageIcon ("2.png");
+       Icon quatro= new ImageIcon("4.png");
+       Icon oito = new ImageIcon("8.png");
+       Icon dezesseis= new ImageIcon("16.png");
+       Icon trintaedois= new ImageIcon("32.png");
+       Icon sessentaequatro= new ImageIcon("64.png");
+       Icon centoevintoeoito = new ImageIcon("128.png");
+       Icon duzentosecinquentaeseis= new ImageIcon("256.png");
+       Icon quinhetosedoze = new ImageIcon("512.png");
+       Icon milevinteequatro = new ImageIcon("1024.png");
+       Icon doismilequarentaeoitro= new ImageIcon("2048.png");
 
     public jogoprincipal() {
-        int tamx=200,tamy=115;
-     
+      int tamx=165,tamy=115;
      pontuacao.setText("Pontuação:");
      pontuacao.setSize(100,80);
      pontuacao.setLocation(150, 0);
@@ -50,25 +60,45 @@ public class jogoprincipal extends JFrame  implements KeyListener{
      reiniciar.setFocusable(false);
      add(reiniciar);
      
+     secreto.setSize(100,100);
+     secreto.setLocation(700,450);
+     secreto.setText(".");
+     secreto.setFont(new Font("Courier New", Font.ITALIC, 1));
+     add(secreto);
+     
     reiniciar.addActionListener(new ActionListener()
     {
       public void actionPerformed(ActionEvent e)
       {
       jogo.inicializar(matriz);
       jogo.score=0;
+      jogo.vitoria=0;
+      jogo.derrota=0;
       atualizar();
+      
       }
     });
-     
-     
-     
-     
-     
-     
-     
-     
-     
+    
+    
+    secreto.addMouseListener(new MouseAdapter()  
+{  
+    public void mouseClicked(MouseEvent e)  
+    {  
+        for(int i=0;i<4;i++)
+        {
+            for(int j=0;j<4;j++)
+            {
+                matriz[i][j]=0;
+            }
+        }
+        matriz[2][2]=1024;
+        matriz[3][2]=1024;
+         atualizar();
 
+    }  
+});
+     
+     
     setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     setLayout(null);
     setSize(800,600);
@@ -83,14 +113,9 @@ public class jogoprincipal extends JFrame  implements KeyListener{
            texto[i][j]= new JLabel();
            texto[i][j].setSize(80, 80);
            texto[i][j].setLocation(tamx+30, tamy);
-           texto[i][j].setFont(new Font("Bahnschrift SemiLight", Font.BOLD, 20));
-             blocos[i][j]=new JPanel();
-             blocos[i][j].setSize(80, 80);
-             blocos[i][j].setLayout(null);
-             blocos[i][j].setLocation(tamx, tamy);
-             blocos[i][j].setBackground(zero);
+           texto[i][j].setIcon(zero);
              add(texto[i][j]);
-             add(blocos[i][j]);
+             
            
              tamx+=100;
              
@@ -112,22 +137,17 @@ public class jogoprincipal extends JFrame  implements KeyListener{
     
     void atualizar()
     {
+         int tamx=165,tamy=115;
         int score=jogo.score;
         for(int i=0;i<4;i++)
                    {
                        for(int j=0;j<4;j++)
                        {
-                           if(matriz[i][j]!=0)
-                           {
-                           texto[i][j].setText(Integer.toString(matriz[i][j]));
-                           }
-                           else
-                           {
-                              blocos[i][j].setBorder(null); 
-                               texto[i][j].setText("");
-                           }
-                    
+                           atualizar_cores(matriz[i][j],i,j,tamx,tamy);
+                            tamx+=100;
                        }
+                       tamx-=400;
+                       tamy+=100;
                    }
          jogo.vitoria(matriz);
         jogo.derrota(matriz);
@@ -137,47 +157,60 @@ public class jogoprincipal extends JFrame  implements KeyListener{
         {
             System.out.print("cccccc");
         }
+        
+        if(jogo.vitoria==1)
+        {
+      vitoria vitoria= new vitoria();
+      jogo.inicializar(matriz);
+      jogo.score=0;
+      jogo.vitoria=0;
+      jogo.derrota=0;
+      atualizar();
+      
+        }
+        
     }
     
-    void atualizar_cores(int valor,int i, int j)
+    void atualizar_cores(int valor,int i, int j,int tamx,int tamy)
     {
         switch(valor)
         {
             case 0:
-                blocos[i][j].setBackground(zero);
+                  texto[i][j].setIcon(zero);
                 break;
             case 2:
-                blocos[i][j].setBackground(zero);
+                texto[i][j].setIcon(dois);
                 break;
             case 4:
-                 blocos[i][j].setBackground(zero);
+                texto[i][j].setIcon(quatro);
                 break;
             case 8:
-                 blocos[i][j].setBackground(zero);
+                   texto[i][j].setIcon(oito);
                 break;
             case 16:
-                 blocos[i][j].setBackground(zero);
+                 texto[i][j].setIcon(dezesseis);
                 break;
              case 32:
-                 blocos[i][j].setBackground(zero);
+                  texto[i][j].setIcon(trintaedois);
                 break;
              case 64:
-                 blocos[i][j].setBackground(zero);
+                  texto[i][j].setIcon(sessentaequatro);
                 break;
              case 128:
-                 blocos[i][j].setBackground(zero);
+                   texto[i][j].setIcon(centoevintoeoito);
                 break;
               case 256:
-                 blocos[i][j].setBackground(zero);
+                  texto[i][j].setIcon(duzentosecinquentaeseis);
                 break;
                case 512:
-                 blocos[i][j].setBackground(zero);
+                     texto[i][j].setIcon(quinhetosedoze);
                 break;
                 case 1024:
-                 blocos[i][j].setBackground(zero);
+                  texto[i][j].setIcon(milevinteequatro);
+                 
                 break;
                  case 2048:
-                 blocos[i][j].setBackground(zero);
+                     texto[i][j].setIcon(doismilequarentaeoitro);
                 break;
                 
                 
@@ -233,7 +266,7 @@ public class jogoprincipal extends JFrame  implements KeyListener{
                    atualizar();
              }
                        
-               }                                         
+               }      
     }  
     public void keyReleased(KeyEvent e) {   
     }  

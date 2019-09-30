@@ -21,8 +21,9 @@ public class Proj_2048{
         //inicio inicio= new inicio();
        // principal principal = new principal();
         //inicio.setVisible(true);
-        jogoprincipal a= new jogoprincipal();
+       jogoprincipal a= new jogoprincipal();
         a.setVisible(true);
+        //jogo a = new jogo();
         try
         {
         Thread.sleep(1000);
@@ -31,7 +32,28 @@ public class Proj_2048{
                 {
                     
                 }
-     
-    
+        matriz[0][0]=2;
+        matriz[1][0]=2;
+        matriz[2][0]=4;
+        matriz[3][0]=8;
+        
+        for(i=0;i<4;i++)
+        {
+            for(j=0;j<4;j++)
+            {
+                System.out.print("  "+matriz[i][j]);
+            }
+            System.out.println();
+        }
+      System.out.println(); System.out.println();
+      //a.mover_baixo(matriz);
+            for(i=0;i<4;i++)
+        {
+            for(j=0;j<4;j++)
+            {
+                System.out.print("  "+matriz[i][j]);
+            }
+            System.out.println();
+        }
 }
 }
