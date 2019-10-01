@@ -64,6 +64,16 @@ public class jogoprincipal extends JFrame implements KeyListener {
     Icon friccao256 = new ImageIcon("256_friccao.gif");
     Icon friccao512 = new ImageIcon("512_friccao.gif");
     Icon friccao1024 = new ImageIcon("1024_friccao.gif");
+    Icon juncao4 = new ImageIcon("4_juncao.gif");
+    Icon juncao8 = new ImageIcon("8_juncao.gif");
+    Icon juncao16 = new ImageIcon("16_juncao.gif");
+    Icon juncao32 = new ImageIcon("32_juncao.gif");
+    Icon juncao64 = new ImageIcon("64_juncao.gif");
+    Icon juncao128 = new ImageIcon("128_juncao.gif");
+    Icon juncao256 = new ImageIcon("256_juncao.gif");
+    Icon juncao512 = new ImageIcon("512_juncao.gif");
+    Icon juncao1024 = new ImageIcon("1024_juncao.gif");
+    
 
     som home = new som();                                                   //instancia a musica
     som p = new som();
@@ -243,7 +253,6 @@ public class jogoprincipal extends JFrame implements KeyListener {
         Fundo.setLayout(null);
         Fundo.setBackground(fundo);
         Fundo.setSize(800, 600);
-        //Fundo.setLocationRelativeTo(null);
         add(Fundo);
 
         jogo.inicializar(matriz);
@@ -251,27 +260,24 @@ public class jogoprincipal extends JFrame implements KeyListener {
     }
     //Funcao que verifica se ja ganhou ou perdeu o jogo, e chama a funcao que atualiza as cores dos blocos
     void atualizar() {
-        int tamx = 175, tamy = 100;
         int score = jogo.score;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                atualizar_cores(matriz[i][j], i, j, tamx, tamy);
-                tamx += 100;
+                atualizar_cores(matriz[i][j], i, j);
             }
-            tamx -= 400;
-            tamy += 100;
         }
         jogo.vitoria(matriz);                                                   //verifica se ganhou o jogo
         jogo.derrota(matriz);                                                   //verifica se perdeu
         jogo.score = score;
         numero_pontuacao.setText(Integer.toString(jogo.score));
         if (jogo.derrota == 1) {
-            this.dispose();                                                     //se perdeu fecha o jogo
+            this.dispose(); 
+                                                               //se perdeu fecha o jogo
             derrota derrota = new derrota();                                    //e da inicio a derrota
             jogo.inicializar(matriz);
             jogo.score = 0;
             jogo.vitoria = 0;
-            jogo.derrota = 0;
+             jogo.derrota = 0;
             try {
                 home.parar();
             } catch (Exception e) {
@@ -350,7 +356,7 @@ public class jogoprincipal extends JFrame implements KeyListener {
     }
 
     //Seta a imagem dos blocos com o valor recebido da matriz
-    void atualizar_cores(int valor, int i, int j, int tamx, int tamy) {
+    void atualizar_cores(int valor, int i, int j) {
         switch (valor) {
             case 0:
                 texto[i][j].setIcon(zero);
@@ -393,6 +399,7 @@ public class jogoprincipal extends JFrame implements KeyListener {
         }
     }
 
+     //Seta a animacao de colisao nos blocos com o valor recebido da matriz
     void animacao(int a, int b, int i, int j, int k, int l) {
 
         int aux1, auxX, auxY;
@@ -437,15 +444,46 @@ public class jogoprincipal extends JFrame implements KeyListener {
             auxX = k;
             auxY = l;
         }
-
     }
 
+     //Seta a animacao de formacao de blocos com o valor recebido da matriz
+    public void animacao(int valor, int x, int y){
+        switch (valor) {
+                case 4:
+                    texto[x][y].setIcon(juncao4);
+                    break;
+                case 8:
+                    texto[x][y].setIcon(juncao8);
+                    break;
+                case 16:
+                    texto[x][y].setIcon(juncao16);
+                    break;
+                case 32:
+                    texto[x][y].setIcon(juncao32);
+                    break;
+                case 64:
+                    texto[x][y].setIcon(juncao64);
+                    break;
+                case 128:
+                    texto[x][y].setIcon(juncao128);
+                    break;
+                case 256:
+                    texto[x][y].setIcon(juncao256);
+                    break;
+                case 512:
+                    texto[x][y].setIcon(juncao512);
+                    break;
+                case 1024:
+                    texto[x][y].setIcon(juncao1024);
+                    break;
+            }
+        
+    }
     public void mover_dir(int v[][]) {
         Runnable g = new Runnable() {
             public void run() {
-                int i, j, k, ver = -1, l = 0, g = 0, delay = 60;
-
-                posicao_M[] localizacao = new posicao_M[16];
+                int i, j, k, ver = -1, l = 0, g = 0, delay = 60;               
+                posicao_M[] localizacao = new posicao_M[16];// vetor de posicoes da matriz
                 for (i = 0; i < 16; i++) {
                     localizacao[i] = new posicao_M();
 
@@ -453,42 +491,43 @@ public class jogoprincipal extends JFrame implements KeyListener {
 
                 for (i = 0; i < 4; i++) {
                     for (j = 1; j < 4; j++) {
-                        if (v[i][j] != 0) {
-                            for (k = j; k > 0; k--) {
-                                if (v[i][k - 1] == 0) {
+                        if (v[i][j] != 0) {// se posicao da matriz diferente de 0, gerar movimento
+                            for (k = j; k > 0; k--) {// proximo bloco para comparar
+                                if (v[i][k - 1] == 0) {// se proximo bloco igual a 0, mover
                                     v[i][k - 1] = v[i][k];
                                     v[i][k] = 0;
-                                    atualizar();
+                                    atualizar_cores(v[i][k],i,k);//atualizar icone do bloco
+                                    atualizar_cores(v[i][k-1],i,k-1);//atualizar icone do bloco
                                     try {
-                                        Thread.sleep(delay);
+                                        Thread.sleep(delay);// delay para mover bloco
                                     } catch (InterruptedException ex) {
                                         Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
                                     }
-                                    if (delay > 30) {
+                                    if (delay > 30) {// diminuir delay para suavizar movimento
                                         delay -= 10;
                                     }
-
                                 } else {
-                                    if (v[i][k] == v[i][k - 1]) {
+                                    if (v[i][k] == v[i][k - 1]) {// se blocos iguais iniciar procedimento de verificacao de flag
                                         for (g = 0; g < l; g++) {
                                             if (i == localizacao[g].i && k == localizacao[g].j) {
                                                 ver = 1;
                                             }
-
                                         }
-                                        if (ver != 1) {
+                                        if (ver != 1) {// se flag valida somar
                                             localizacao[l].alterar(i, k - 1);
                                             l++;
                                             localizacao[l].alterar(i, k);
                                             l++;
-                                            jogo.score += v[i][k - 1];
+                                            jogo.score += v[i][k - 1];// atualizar score
                                             v[i][k - 1] *= 2;
                                             v[i][k] = 0;
+                                    atualizar_cores(v[i][k],i,k);
+                                    animacao(v[i][k-1],i,k-1);
                                         }
-
                                     } else {
-                                        if (v[i][k] != 0 && v[i][k - 1] != 0 && v[i][k] != v[i][k - 1]) {
-                                            // animacao(v[i][k],v[i][k-1],i,k,i,k-1);
+                                        if (v[i][k] != 0 && v[i][k - 1] != 0 && v[i][k] != v[i][k - 1]) {//friccao entre blocos
+                                           
+                                             animacao(v[i][k],v[i][k-1],i,k,i,k-1);
                                         }
                                     }
                                 }
@@ -498,19 +537,16 @@ public class jogoprincipal extends JFrame implements KeyListener {
                     }
                 }
                 try {
-                    Thread.sleep(150);
+                    Thread.sleep(150);//delay para gerar novos blocos
                 } catch (InterruptedException ex) {
                     Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                jogo.gerar_random(matriz);
-                atualizar();
-
+                jogo.gerar_random(matriz);//gerar blocos aleatorios
+                atualizar();//atualizar vericacoes de jogo
             }
-
         };
         Thread f = new Thread(g);
-        f.start();
-
+        f.start();//executar thread
     }
 
     public void mover_esq(int v[][]) {
@@ -518,49 +554,51 @@ public class jogoprincipal extends JFrame implements KeyListener {
             public void run() {
                 int i, j, k, ver = -1, l = 0, g = 0, delay = 60;
 
-                posicao_M[] localizacao = new posicao_M[16];
+                posicao_M[] localizacao = new posicao_M[16];// vetor de posicoes da matriz
                 for (i = 0; i < 16; i++) {
                     localizacao[i] = new posicao_M();
-
                 }
-
                 for (i = 0; i < 4; i++) {
                     for (j = 2; j >= 0; j--) {
-                        if (v[i][j] != 0) {
-                            for (k = j; k < 3; k++) {
-                                if (v[i][k + 1] == 0) {
+                        if (v[i][j] != 0) {// se posicao da matriz diferente de 0, gerar movimento
+                            for (k = j; k < 3; k++) {// proximo bloco para comparar
+                                if (v[i][k + 1] == 0) {// se proximo bloco igual a 0, mover
                                     v[i][k + 1] = v[i][k];
                                     v[i][k] = 0;
-                                    atualizar();
+                                    atualizar_cores(v[i][k],i,k);//atualizar icone do bloco
+                                    atualizar_cores(v[i][k+1],i,k+1);//atualizar icone do bloco
                                     try {
-                                        Thread.sleep(delay);
+                                        Thread.sleep(delay);// delay para mover bloco
                                     } catch (InterruptedException ex) {
                                         Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
                                     }
                                     if (delay > 30) {
-                                        delay -= 10;
+                                        delay -= 10;// diminuir delay para suavizar movimento
                                     }
                                 } else {
 
-                                    if (v[i][k] == v[i][k + 1]) {
+                                    if (v[i][k] == v[i][k + 1]) {// se blocos iguais iniciar procedimento de verificacao de flag
                                         for (g = 0; g < l; g++) {
                                             if (i == localizacao[g].i && k == localizacao[g].j) {
                                                 ver = 1;
                                             }
-
                                         }
-                                        if (ver != 1) {
+                                        if (ver != 1) {// se flag valida somar
                                             localizacao[l].alterar(i, k + 1);
                                             l++;
                                             localizacao[l].alterar(i, k);
                                             l++;
-                                            jogo.score += v[i][k + 1];
+                                            jogo.score += v[i][k + 1];// atualizar score
                                             v[i][k + 1] *= 2;
                                             v[i][k] = 0;
+                                    atualizar_cores(v[i][k],i,k);
+                                   animacao(v[i][k+1],i,k+1);
+
+                                    
                                         }
                                     } else {
-                                        if (v[i][k] != 0 && v[i][k + 1] != 0 && v[i][k] != v[i][k + 1]) {
-                                            //animacao(v[i][k],v[i][k+1],i,k,i,k+1);
+                                        if (v[i][k] != 0 && v[i][k + 1] != 0 && v[i][k] != v[i][k + 1]) {//friccao entre blocos
+                                            animacao(v[i][k],v[i][k+1],i,k,i,k+1);
                                         }
                                     }
                                 }
@@ -570,18 +608,16 @@ public class jogoprincipal extends JFrame implements KeyListener {
                     }
                 }
                 try {
-                    Thread.sleep(150);
+                    Thread.sleep(150);//delay para gerar novos blocos
                 } catch (InterruptedException ex) {
                     Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 jogo.gerar_random(matriz);
-                atualizar();
-
+                atualizar();;//atualizar vericacoes de jogo
             }
-
         };
         Thread f = new Thread(g);
-        f.start();
+        f.start();//executar thread
     }
 
     public void mover_cima(int v[][]) {
@@ -589,50 +625,50 @@ public class jogoprincipal extends JFrame implements KeyListener {
             public void run() {
                 int i, j, k, ver = -1, l = 0, g = 0, delay = 60;
 
-                posicao_M[] localizacao = new posicao_M[16];
+                posicao_M[] localizacao = new posicao_M[16];// vetor de posicoes da matriz
                 for (i = 0; i < 16; i++) {
                     localizacao[i] = new posicao_M();
-
                 }
-
                 for (j = 0; j < 4; j++) {
                     for (i = 1; i < 4; i++) {
-                        if (v[i][j] != 0) {
-                            for (k = i; k > 0; k--) {
-                                if (v[k - 1][j] == 0) {
+                        if (v[i][j] != 0) {// se posicao da matriz diferente de 0, gerar movimento
+                            for (k = i; k > 0; k--) {// proximo bloco para comparar
+                                if (v[k - 1][j] == 0) {// se proximo bloco igual a 0, mover
                                     v[k - 1][j] = v[k][j];
                                     v[k][j] = 0;
-                                    atualizar();
+                                    atualizar_cores(v[k][j],k,j);//atualizar icone do bloco
+                                    atualizar_cores(v[k-1][j],k-1,j);//atualizar icone do bloco
                                     try {
-                                        Thread.sleep(delay);
+                                        Thread.sleep(delay);;// delay para mover bloco
                                     } catch (InterruptedException ex) {
                                         Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
                                     }
                                     if (delay > 30) {
-                                        delay -= 10;
+                                        delay -= 10;// diminuir delay para suavizar movimento
                                     }
                                 } else {
-                                    if (v[k][j] == v[k - 1][j]) {
+                                    if (v[k][j] == v[k - 1][j]) {// se blocos iguais iniciar procedimento de verificacao de flag
                                         for (g = 0; g < l; g++) {
                                             if (k == localizacao[g].i && j == localizacao[g].j) {
                                                 ver = 1;
                                             }
-
                                         }
-                                        if (ver != 1) {
+                                        if (ver != 1) {// se flag valida somar
                                             localizacao[l].alterar(k - 1, j);
                                             l++;
                                             localizacao[l].alterar(k, j);
                                             l++;
-                                            jogo.score += v[k - 1][j];
+                                            jogo.score += v[k - 1][j];// atualizar score
                                             ver = k - 1;
                                             v[k - 1][j] *= 2;
                                             v[k][j] = 0;
+                                            atualizar_cores(v[k][j],k,j);
+                                           animacao(v[k-1][j],k-1,j);
                                         }
 
                                     } else {
                                         if (v[k][j] != 0 && v[k - 1][j] != 0 && v[k][j] != v[k - 1][j]) {
-                                            // animacao(v[k][j],v[k-1][j],k,j,k-1,j);
+                                            animacao(v[k][j],v[k-1][j],k,j,k-1,j);//friccao entre blocos
                                         }
                                     }
                                 }
@@ -643,19 +679,16 @@ public class jogoprincipal extends JFrame implements KeyListener {
                     }
                 }
                 try {
-                    Thread.sleep(150);
+                    Thread.sleep(150);//delay para gerar novos blocos
                 } catch (InterruptedException ex) {
                     Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 jogo.gerar_random(matriz);
-                atualizar();
-
+                atualizar();//atualizar vericacoes de jogo
             }
-
         };
         Thread f = new Thread(g);
-        f.start();
-
+        f.start();//executar thread
     }
 
     public void mover_baixo(int v[][]) {
@@ -664,54 +697,53 @@ public class jogoprincipal extends JFrame implements KeyListener {
 
                 int i, j, k, ver = -1, l = 0, g = 0, delay = 60;
 
-                posicao_M[] localizacao = new posicao_M[16];
+                posicao_M[] localizacao = new posicao_M[16];// vetor de posicoes da matriz
                 for (i = 0; i < 16; i++) {
                     localizacao[i] = new posicao_M();
-
                 }
-
                 for (j = 0; j < 4; j++) {
                     for (i = 2; i >= 0; i--) {
-                        if (v[i][j] != 0) {
-                            for (k = i; k < 3; k++) {
-                                if (v[k + 1][j] == 0) {
+                        if (v[i][j] != 0) {// se posicao da matriz diferente de 0, gerar movimento
+                            for (k = i; k < 3; k++) {// proximo bloco para comparar
+                                if (v[k + 1][j] == 0) {// se proximo bloco igual a 0, mover
                                     v[k + 1][j] = v[k][j];
                                     v[k][j] = 0;
-
-                                    atualizar();
+                                    atualizar_cores(v[k][j],k,j);//atualizar icone do bloco
+                                    atualizar_cores(v[k+1][j],k+1,j);   ;//atualizar icone do bloco                              
                                     try {
-                                        Thread.sleep(delay);
+                                        Thread.sleep(delay);// delay para mover bloco
                                     } catch (InterruptedException ex) {
                                         Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
                                     }
                                     if (delay > 30) {
-                                        delay -= 10;
+                                        delay -= 10;// diminuir delay para suavizar movimento
                                     }
-
                                 } else {
-                                    if (v[k][j] == v[k + 1][j]) {
+                                    if (v[k][j] == v[k + 1][j]) {// se blocos iguais iniciar procedimento de verificacao de flag
 
                                         for (g = 0; g < l; g++) {
                                             if (k == localizacao[g].i && j == localizacao[g].j) {
                                                 ver = 1;
                                             }
-
                                         }
-
-                                        if (ver != 1) {
+                                        if (ver != 1) {// se flag valida somar
                                             localizacao[l].alterar(k + 1, j);
                                             l++;
                                             localizacao[l].alterar(k, j);
                                             l++;
-                                            jogo.score += v[k + 1][j];
+                                            jogo.score += v[k + 1][j];// atualizar score
                                             ver = k + 1;
                                             v[k + 1][j] *= 2;
                                             v[k][j] = 0;
+                                            atualizar_cores(v[k][j],k,j);
+                                            
+                                            
+                                            animacao(v[k+1][j],k+1,j);
                                         }
 
                                     } else {
                                         if (v[k][j] != 0 && v[k + 1][j] != 0 && v[k][j] != v[k + 1][j]) {
-                                            //animacao(v[k][j],v[k+1][j],k,j,k+1,j);
+                                            animacao(v[k][j],v[k+1][j],k,j,k+1,j);//friccao entre blocos
                                         }
                                     }
 
@@ -722,17 +754,16 @@ public class jogoprincipal extends JFrame implements KeyListener {
                     }
                 }
                 try {
-                    Thread.sleep(150);
+                    Thread.sleep(150);//delay para gerar novos blocos
                 } catch (InterruptedException ex) {
                     Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 jogo.gerar_random(matriz);
-                atualizar();
+                atualizar();//atualizar vericacoes de jogo
             }
-
         };
         Thread f = new Thread(g);
-        f.start();
+        f.start();//executar thread
     }
     //Funcao Evento para a movimentacao pelas setas direcionais e as letras "w,a,s,d" 
     public void keyPressed(KeyEvent e) {
@@ -744,7 +775,6 @@ public class jogoprincipal extends JFrame implements KeyListener {
                 jogo.score = score;
                 mover_cima(matriz);
             }
-
         }
         if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == 37) {          //Se movimento para direita
             aux = jogo.movimento_possivel(matriz, 4);
@@ -764,14 +794,12 @@ public class jogoprincipal extends JFrame implements KeyListener {
             }
 
         }
-
         if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == 40) {          //Se movimento para baixo
             aux = jogo.movimento_possivel(matriz, 2);
             if (aux != 1) {
                 jogo.score = score;
                 mover_baixo(matriz);
             }
-
         }
     }
 
@@ -780,5 +808,4 @@ public class jogoprincipal extends JFrame implements KeyListener {
 
     public void keyTyped(KeyEvent e) {
     }
-
 }

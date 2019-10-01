@@ -52,7 +52,8 @@ public class menu extends JFrame {
         add(start);
         
                 start.addMouseListener(new MouseAdapter() {        //evento do click do mouse para dar start    
-            public void mouseClicked(MouseEvent e) {                
+            public void mouseClicked(MouseEvent e) {
+                dispose();
                 jogoprincipal jogo = new jogoprincipal();
                 jogo.setVisible(true);
             }            
