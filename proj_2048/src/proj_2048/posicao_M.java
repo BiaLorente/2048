@@ -9,6 +9,9 @@ package proj_2048;
  *
  * @author Wagner
  */
+
+
+//Funcao utilizada na Classe "jogo" para utilizar as posicoes da matriz mais facilmente
 public class posicao_M {
 
     int i, j;

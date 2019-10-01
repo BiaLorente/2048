@@ -11,12 +11,14 @@ import java.util.Random;
  *
  * @author Wagner
  */
+//
 public class jogo {
 
-    public int vitoria = 0;
-    public int derrota = 0;
-    public int score = 0;
+    public int vitoria = 0;     //flag da vitoria
+    public int derrota = 0;     //flag da derrota
+    public int score = 0;       //pontuacao
 
+    //Inicializa a matriz do jogo zerada e depois chama a funcao "gerar_random" que da duas posições randomicas 
     public void inicializar(int v[][]) {
         int i = 0, j = 0;
         for (i = 0; i < 4; i++) {
@@ -24,21 +26,22 @@ public class jogo {
                 v[i][j] = 0;
             }
         }
-        gerar_random(v);
-        gerar_random(v);
+        gerar_random(v);        //gera em posicao aleatoria o valor 2 ou o 4
+        gerar_random(v);        //gera em posicao aleatoria o valor 2 ou o 4
 
     }
-
+    
+    //Gera em posicoes randomicas da matriz os valores "2" e "4"
     public void gerar_random(int v[][]) {
         int i = 0, j = 0, k = 0, randomposi, randomnum;
-        posicao_M[] localizacao = new posicao_M[16];
+        posicao_M[] localizacao = new posicao_M[16]; // vetor de posicao
         for (i = 0; i < 16; i++) {
             localizacao[i] = new posicao_M();
 
         }
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 4; j++) {
-                if (v[i][j] == 0) {
+                if (v[i][j] == 0) { // posicoes disponiveis
                     localizacao[k].alterar(i, j);
                     k++;
                 }
@@ -46,8 +49,8 @@ public class jogo {
         }
         if (k > 1) {
             Random gerador = new Random();
-            randomposi = gerador.nextInt(k - 1);
-            randomnum = gerador.nextInt(10);
+            randomposi = gerador.nextInt(k - 1);// gerar posicao da matriz aleatoria
+            randomnum = gerador.nextInt(10); // gerar numero para gerar bloco
             if (randomnum <= 3) {
                 v[localizacao[randomposi].i][localizacao[randomposi].j] = 4;
 
@@ -71,8 +74,8 @@ public class jogo {
 
     public void mover_esq(int v[][]) {
         int i, j, k, ver = -1, l = 0, g = 0;
-
-        posicao_M[] localizacao = new posicao_M[16];
+        
+        posicao_M[] localizacao = new posicao_M[16];// vetor de posicoes da matriz
         for (i = 0; i < 16; i++) {
             localizacao[i] = new posicao_M();
 
@@ -80,26 +83,26 @@ public class jogo {
 
         for (i = 0; i < 4; i++) {
             for (j = 2; j >= 0; j--) {
-                if (v[i][j] != 0) {
-                    for (k = j; k < 3; k++) {
-                        if (v[i][k + 1] == 0) {
+                if (v[i][j] != 0) {// se posicao da matriz diferente de 0, gerar movimento
+                    for (k = j; k < 3; k++) {// proximo bloco para comparar
+                        if (v[i][k + 1] == 0) {// se proximo bloco igual a 0, mover
                             v[i][k + 1] = v[i][k];
                             v[i][k] = 0;
                         } else {
 
-                            if (v[i][k] == v[i][k + 1]) {
+                            if (v[i][k] == v[i][k + 1]) {// se blocos iguais iniciar procedimento de verificacao de flag
                                 for (g = 0; g < l; g++) {
                                     if (i == localizacao[g].i && k == localizacao[g].j) {
                                         ver = 1;
                                     }
 
                                 }
-                                if (ver != 1) {
+                                if (ver != 1) {// se flag valida somar
                                     localizacao[l].alterar(i, k + 1);
                                     l++;
                                     localizacao[l].alterar(i, k);
                                     l++;
-                                    score += v[i][k + 1];
+                                    score += v[i][k + 1]; // atualizar score
                                     v[i][k + 1] *= 2;
                                     v[i][k] = 0;
                                 }
@@ -116,7 +119,7 @@ public class jogo {
 
         int i, j, k, ver = -1, l = 0, g = 0;
 
-        posicao_M[] localizacao = new posicao_M[16];
+        posicao_M[] localizacao = new posicao_M[16];// vetor de posicoes da matriz
         for (i = 0; i < 16; i++) {
             localizacao[i] = new posicao_M();
 
@@ -124,13 +127,13 @@ public class jogo {
 
         for (j = 0; j < 4; j++) {
             for (i = 2; i >= 0; i--) {
-                if (v[i][j] != 0) {
-                    for (k = i; k < 3; k++) {
-                        if (v[k + 1][j] == 0) {
+                if (v[i][j] != 0) {// se posicao da matriz diferente de 0, gerar movimento
+                    for (k = i; k < 3; k++) {// proximo bloco para comparar
+                        if (v[k + 1][j] == 0) {// se proximo bloco igual a 0, mover
                             v[k + 1][j] = v[k][j];
                             v[k][j] = 0;
                         } else {
-                            if (v[k][j] == v[k + 1][j]) {
+                            if (v[k][j] == v[k + 1][j]) { // se blocos iguais iniciar procedimento de verificacao de flag
 
                                 for (g = 0; g < l; g++) {
                                     if (k == localizacao[g].i && j == localizacao[g].j) {
@@ -139,12 +142,12 @@ public class jogo {
 
                                 }
 
-                                if (ver != 1) {
+                                if (ver != 1) { // se flag valida somar
                                     localizacao[l].alterar(k + 1, j);
                                     l++;
                                     localizacao[l].alterar(k, j);
                                     l++;
-                                    score += v[k + 1][j];
+                                    score += v[k + 1][j];// atualizar score
                                     ver = k + 1;
                                     v[k + 1][j] *= 2;
                                     v[k][j] = 0;
@@ -162,7 +165,7 @@ public class jogo {
     public void mover_dir(int v[][]) {
         int i, j, k, ver = -1, l = 0, g = 0;
 
-        posicao_M[] localizacao = new posicao_M[16];
+        posicao_M[] localizacao = new posicao_M[16]; // vetor de posicoes da matriz
         for (i = 0; i < 16; i++) {
             localizacao[i] = new posicao_M();
 
@@ -170,25 +173,25 @@ public class jogo {
 
         for (i = 0; i < 4; i++) {
             for (j = 1; j < 4; j++) {
-                if (v[i][j] != 0) {
-                    for (k = j; k > 0; k--) {
-                        if (v[i][k - 1] == 0) {
+                if (v[i][j] != 0) { // se posicao da matriz diferente de 0, gerar movimento
+                    for (k = j; k > 0; k--) {// proximo bloco para comparar
+                        if (v[i][k - 1] == 0) { // se proximo bloco igual a 0, mover
                             v[i][k - 1] = v[i][k];
                             v[i][k] = 0;
                         } else {
-                            if (v[i][k] == v[i][k - 1]) {
+                            if (v[i][k] == v[i][k - 1]) { // se blocos iguais iniciar procedimento de verificacao de flag
                                 for (g = 0; g < l; g++) {
                                     if (i == localizacao[g].i && k == localizacao[g].j) {
                                         ver = 1;
                                     }
 
                                 }
-                                if (ver != 1) {
+                                if (ver != 1) { // se flag valida somar
                                     localizacao[l].alterar(i, k - 1);
                                     l++;
                                     localizacao[l].alterar(i, k);
                                     l++;
-                                    score += v[i][k - 1];
+                                    score += v[i][k - 1]; // atualizar score
                                     v[i][k - 1] *= 2;
                                     v[i][k] = 0;
                                 }
@@ -206,7 +209,7 @@ public class jogo {
     public void mover_cima(int v[][]) {
         int i, j, k, ver = -1, l = 0, g = 0;
 
-        posicao_M[] localizacao = new posicao_M[16];
+        posicao_M[] localizacao = new posicao_M[16]; // vetor de posicoes da matriz
         for (i = 0; i < 16; i++) {
             localizacao[i] = new posicao_M();
 
@@ -214,26 +217,26 @@ public class jogo {
 
         for (j = 0; j < 4; j++) {
             for (i = 1; i < 4; i++) {
-                if (v[i][j] != 0) {
-                    for (k = i; k > 0; k--) {
-                        if (v[k - 1][j] == 0) {
+                if (v[i][j] != 0) {// se posicao da matriz diferente de 0, gerar movimento
+                    for (k = i; k > 0; k--) {// proximo bloco para comparar
+                        if (v[k - 1][j] == 0) {// se proximo bloco igual a 0, mover
                             v[k - 1][j] = v[k][j];
                             v[k][j] = 0;
                         } else {
-                            if (v[k][j] == v[k - 1][j]) {
+                            if (v[k][j] == v[k - 1][j]) { // se blocos iguais iniciar procedimento de verificacao de flag
                                 for (g = 0; g < l; g++) {
                                     if (k == localizacao[g].i && j == localizacao[g].j) {
                                         ver = 1;
                                     }
 
                                 }
-                                if (ver != 1) {
+                                if (ver != 1) { // se flag valida somar
                                     localizacao[l].alterar(k - 1, j);
                                     l++;
                                     localizacao[l].alterar(k, j);
                                     l++;
-                                    score += v[k - 1][j];
-                                    ver = k - 1;
+                                    score += v[k - 1][j]; // atualizar score
+                                    ver = k - 1; 
                                     v[k - 1][j] *= 2;
                                     v[k][j] = 0;
                                 }
@@ -248,6 +251,7 @@ public class jogo {
 
     }
 
+    //seta a flag vitoria se tiver o valor 2048 na matriz
     public void vitoria(int v[][]) {
         int i, j;
         for (i = 0; i < 4; i++) {
@@ -259,6 +263,7 @@ public class jogo {
         }
     }
 
+    //seta a flag derrota se nao houver mais nenhum movimento possivel
     public void derrota(int v[][]) {
         if (movimento_possivel(v, 1) == 1 && movimento_possivel(v, 2) == 1 && movimento_possivel(v, 3) == 1 && movimento_possivel(v, 4) == 1) {
             this.derrota = 1;
@@ -266,6 +271,7 @@ public class jogo {
 
     }
 
+    //Funcao que verifica se um movimento é possível,recebendo a matriz observando para que lado é o movimento desejado
     public int movimento_possivel(int v[][], int tipo) {
         int matriz[][] = new int[4][4];
         int i = 0, j = 0, igual = 1;
@@ -275,7 +281,7 @@ public class jogo {
                 matriz[i][j] = v[i][j];
             }
         }
-        switch (tipo) {
+        switch (tipo) {                 //switch case dos movimentos
             case 1:
                 mover_cima(matriz);
                 break;
@@ -292,12 +298,12 @@ public class jogo {
 
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 4; j++) {
-                if (v[i][j] != matriz[i][j]) {
+                if (v[i][j] != matriz[i][j]) {      //se movimento e possivel
                     igual = 0;
                 }
             }
         }
-        return igual;
+        return igual;                               //retorna resultado da flag 
     }
 
 }

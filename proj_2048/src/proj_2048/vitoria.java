@@ -6,20 +6,10 @@
 package proj_2048;
 
 import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.*;
-import java.io.File;
-//import javafx.scene.paint.Color;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.sound.sampled.LineUnavailableException;
 
 /**
  *
@@ -27,29 +17,33 @@ import javax.sound.sampled.LineUnavailableException;
  */
 public class vitoria extends JFrame {
 
-    JLabel saida = new JLabel();
-    som p = new som();
-    JLabel fogos1 = new JLabel();
+    JLabel saida = new JLabel();                                                //Label sair
+    som p = new som();                                                          //instancia som
+    JLabel fogos1 = new JLabel();                                               //instancia label dos fogos
     JLabel fogos2 = new JLabel();
     JLabel fogos3 = new JLabel();
     JPanel fundo = new JPanel();
-    java.awt.Color azul = new Color(143, 196, 245);
+    JLabel wizard = new JLabel();                                               //instancia label do mago
+    JLabel wizard2 = new JLabel();                                              //instancia label do mago2
+    java.awt.Color azul = new Color(143, 196, 245);                             //personaliza a cor azul
+    Color fundo2 = new Color(000, 142, 144);                                  //personaliza a cor do fundo2
 
     public vitoria() {
-        ImageIcon icon = new ImageIcon("fogo-de-artificio-imagem-animada-0037.gif");
+        ImageIcon icon = new ImageIcon("fogo-de-artificio-imagem-animada-0037.gif");    //instancia imagem dos gifs de fogo de artificio
         ImageIcon icon2 = new ImageIcon("fogo-de-artificio-imagem-animada-0092.gif");
         ImageIcon icon3 = new ImageIcon("fogo-de-artificio-imagem-animada-0089.gif");
-        JButton jogar = new JButton();
-        JButton sair = new JButton();
+        ImageIcon mago = new ImageIcon("mago_alegre.gif");                              //instancia imagem do gif do mago
+        JButton jogar = new JButton();                                                  //nstancia botao jogar?
+        JButton sair = new JButton();                                                   //instancia botao sair?
 
-        sair.addActionListener(new ActionListener() {
+        sair.addActionListener(new ActionListener() {                           //Evento do mouse para sair
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
 
             }
         });
 
-        jogar.addActionListener(new ActionListener() {
+        jogar.addActionListener(new ActionListener() {                          //Evento do mouse para jogar novamente
             public void actionPerformed(ActionEvent e) {
 
                 jogoprincipal principal = new jogoprincipal();
@@ -64,48 +58,62 @@ public class vitoria extends JFrame {
             }
         });
 
-        sair.setSize(150, 25);
+        wizard.setIcon(mago);                                                   //Configura mago
+        wizard.setSize(200, 200);
+        wizard.setLocation(25, 80);
+        add(wizard);
+
+        wizard2.setIcon(mago);
+        wizard2.setSize(200, 200);
+        wizard2.setLocation(465, 80);
+        add(wizard2);
+
+        sair.setSize(150, 25);                                                  //Configura botao sair
         sair.setText("Sair?");
-        sair.setLocation(210, 220);
+        sair.setLocation(320, 320);
         sair.setFocusable(false);
-        sair.setBackground(Color.gray);
+
+        sair.setBackground(fundo2);
+        sair.setForeground(Color.white);
         sair.setBorderPainted(false);
         add(sair);
 
-        jogar.setSize(150, 25);
+        jogar.setSize(150, 25);                                                 //Configura botao jogar
         jogar.setText("jogar?");
-        jogar.setLocation(30, 220);
+        jogar.setLocation(130, 320);
         jogar.setFocusable(false);
-        jogar.setBackground(Color.gray);
+        jogar.setBackground(fundo2);
+        jogar.setForeground(Color.white);
         jogar.setBorderPainted(false);
         add(jogar);
 
-        saida.setSize(300, 150);
-        saida.setLocation(60, 50);
+        saida.setSize(300, 150);                                                //Configura Label da saida
+        saida.setLocation(150, 120);
         saida.setText("Jogo Finalizado com sucesso");
-        saida.setFont(new Font("Courier New", Font.BOLD, 16));
+        saida.setFont(new Font("Courier New", Font.BOLD, 18));
+        saida.setForeground(Color.white);
         fogos1.setIcon(icon);
         fogos1.setSize(150, 150);
-        fogos1.setLocation(50, 0);
+        fogos1.setLocation(120, 110);
         fogos2.setIcon(icon2);
         fogos2.setSize(250, 250);
-        fogos2.setLocation(100, 0);
+        fogos2.setLocation(200, 50);
         fogos3.setIcon(icon3);
         fogos3.setSize(150, 150);
-        fogos3.setLocation(250, 0);
+        fogos3.setLocation(350, 110);
         add(fogos3);
         add(fogos2);
         add(fogos1);
         add(saida);
         p.executaSom("Final Fantasy VI - Victory Fanfare(1) (online-audio-converter.com).wav");
 
-        fundo.setSize(400, 300);
+        fundo.setSize(600, 400);
         fundo.setBackground(azul);
         add(fundo);
 
         setUndecorated(true);
         setLayout(null);
-        setSize(400, 300);
+        setSize(600, 400);
         setLocationRelativeTo(null);
         setVisible(true);
 
