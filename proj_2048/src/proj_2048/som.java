@@ -27,9 +27,9 @@ public class som {
             File audioPath = new File(caminho);                                 //instancia o arquivo
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioPath);
             clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.start();
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.open(audioInputStream);// abre o som
+            clip.start();// inicia o som
+            clip.loop(Clip.LOOP_CONTINUOUSLY);// seta duracao do loop
         } catch (Exception ex) {
             System.out.println("Erro ao executar SOM!");
             ex.printStackTrace();
@@ -37,9 +37,8 @@ public class som {
     }
 
     public void parar() throws LineUnavailableException {
-        // Clip clip = AudioSystem.getClip();
         try {
-            this.clip.stop();
+            this.clip.stop();//encerra o som
         } catch (Exception e) {
 
         }
