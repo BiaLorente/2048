@@ -29,17 +29,25 @@ public class jogoprincipal extends JFrame implements KeyListener {
     JLabel setas = new JLabel();                //label das setas
     JLabel cima = new JLabel();                 //label
     JLabel esq = new JLabel();
+    JLabel voltar = new JLabel();
+    JLabel restart = new JLabel();             // instancia label para o restart
+
+    int score;
     JLabel dir = new JLabel();
     JLabel baixo = new JLabel();
     JLabel explosao = new JLabel();             //label para a explosao
     JLabel mago = new JLabel();                 //label para o mago
     jogo jogo = new jogo();                    // intancia o jogo
-    JButton reiniciar = new JButton();          //instancia o botao reiniciar
+  //  JButton reiniciar = new JButton();          //instancia o botao reiniciar
     int matriz[][] = new int[4][4];             // a matriz 4x4
+    int matrizReserva[][]= new int [4][4];
+    int flag=0;
+    Icon restartIcon = new ImageIcon("restart.png");            //imagem do botao restart
     Icon staff = new ImageIcon("Aqua Staff (2).png");       //imagem do cedro do mago
     Icon explosoes = new ImageIcon("explosao.gif");         //gif da explosao
     Icon seta = new ImageIcon("seta.png");                  //imagem da seta
     Icon wizard = new ImageIcon("wizard.gif");              //gif do mago
+    Icon voltarmov= new ImageIcon("voltar.png");
     Icon zero = new ImageIcon("0.png");                     //imagem dos blocos 2,4,8,16,32,64,128,256,512,1024 e 2048
     Icon dois = new ImageIcon("2.png");
     Icon quatro = new ImageIcon("4.png");
@@ -85,7 +93,7 @@ public class jogoprincipal extends JFrame implements KeyListener {
         explosao.setSize(500, 500);                     //configura a explosao
         explosao.setLocation(130, 50);
         add(explosao);
-
+        zerar(matrizReserva);
         home.executaSom("10convert.com_8-Bit-RPG-Music-Royal-Castle-Original-Composition_YKKUEVcMdEU (online-audio-converter.com).wav");      //inicializa a musica
         
         pontuacao.setText("Pontuação:");                                        //Configura o texto pontucao
@@ -101,16 +109,46 @@ public class jogoprincipal extends JFrame implements KeyListener {
         numero_pontuacao.setFont(new Font("Courier New", Font.BOLD, 24));
         numero_pontuacao.setForeground(Color.white);
         add(numero_pontuacao);
+        
+        voltar.setSize(60, 60);//configura label de voltar
+        voltar.setLocation(530, 20);
+        voltar.setIcon(voltarmov);
+        add(voltar);
+        
+                voltar.addMouseListener(new MouseAdapter() { 
+            public void mouseClicked(MouseEvent e) {
+                if(flag!=0)
+                {
+                    flag=0;
+                mover_matriz(matrizReserva,matriz);// passa matriz reserva para matriz principal
+                jogo.score=score;// passa o score anterior ao movimento
+                atualizar();// atualiza o jogo
+                }
+            }
+        });
+        
+        
+        
+        restart.setSize(150, 40);                                                  //Configura reiniciar
+        restart.setIcon(restartIcon);
+        restart.setLocation(320, 512);
+        add(restart);
 
-        reiniciar.setSize(150, 40);                                             //Configura o botao reinicar
-        reiniciar.setLocation(320, 512);
-        reiniciar.setFont(new Font("Courier New", 0, 16));
-        reiniciar.setText("Reiniciar");
-        reiniciar.setFocusable(false);
-        reiniciar.setBorderPainted(false);
-        reiniciar.setBackground(fundo2);
-        reiniciar.setForeground(Color.white);
-        add(reiniciar);
+        restart.addMouseListener(new MouseAdapter() {        //evento do click do mouse para dar restart    
+        public void mouseClicked(MouseEvent e) {
+               jogo.inicializar(matriz);
+                flag=0;
+                zerar(matrizReserva);
+                jogo.score = 0;
+                jogo.vitoria = 0;
+                jogo.derrota = 0;
+                numero_pontuacao.setForeground(Color.white);
+                atualizar();
+
+            }            
+        });
+        
+
 
         secreto.setSize(50, 50);                                                //Configura o easteregg
         secreto.setLocation(650, 440);
@@ -141,9 +179,10 @@ public class jogoprincipal extends JFrame implements KeyListener {
         cima.addMouseListener(new MouseAdapter() {                              //Evento do click do mouse para seta cima 
             public void mouseClicked(MouseEvent e) {
                 int aux;
-                int score = jogo.score;                                         //atualiza score
+                score = jogo.score;                                         //atualiza score
                 aux = jogo.movimento_possivel(matriz, 1);                       //verifica se  possivel o movimento para cima 
                 if (aux != 1) {
+                    mover_matriz(matriz,matrizReserva);
                     jogo.score = score;                                         //atualiza o score
                     mover_cima(matriz);                                         //faz o movimento para cima
 
@@ -154,9 +193,11 @@ public class jogoprincipal extends JFrame implements KeyListener {
         baixo.addMouseListener(new MouseAdapter() {                             //Evento do click do mouse para seta baixo
             public void mouseClicked(MouseEvent e) {
                 int aux;
-                int score = jogo.score;                                         //atualiza score
+                score = jogo.score;                                         //atualiza score
                 aux = jogo.movimento_possivel(matriz, 2);                       //verifica se  possivel o movimento para baixo
-                if (aux != 1) {                                                 
+                if (aux != 1) {
+                    flag=1;
+                    mover_matriz(matriz,matrizReserva);
                     jogo.score = score;                                         //atualiza score
                     mover_baixo(matriz);                                        //faz o movimento para baixo
 
@@ -168,9 +209,11 @@ public class jogoprincipal extends JFrame implements KeyListener {
         esq.addMouseListener(new MouseAdapter() {                               //Evento do click do mouse para seta esquerda
             public void mouseClicked(MouseEvent e) {
                 int aux;
-                int score = jogo.score;                                         //atualiza score
+                score = jogo.score;                                         //atualiza score
                 aux = jogo.movimento_possivel(matriz, 4);                       //verifica se  possivel o movimento para esquerda
                 if (aux != 1) {
+                    flag=1;
+                    mover_matriz(matriz,matrizReserva);
                     jogo.score = score;                                         //atualiza score
                     mover_dir(matriz);                                          //faz o movimento para esquerda
 
@@ -181,9 +224,11 @@ public class jogoprincipal extends JFrame implements KeyListener {
         dir.addMouseListener(new MouseAdapter() {                               //Evento do click do mouse para seta direita
             public void mouseClicked(MouseEvent e) {
                 int aux;
-                int score = jogo.score;                                         //atualiza score
+                score = jogo.score;                                         //atualiza score
                 aux = jogo.movimento_possivel(matriz, 3);                       //verifica se  possivel o movimento para direita
                 if (aux != 1) {
+                    flag=1;
+                       mover_matriz(matriz,matrizReserva);
                     jogo.score = score;                                         //atualiza score
                     mover_esq(matriz);                                          //faz o movimento para direita
      
@@ -196,17 +241,6 @@ public class jogoprincipal extends JFrame implements KeyListener {
         mago.setLocation(500, 350);
         add(mago);
 
-        reiniciar.addActionListener(new ActionListener() {                      //Evento do botao reiniciar para comecar o jogo de novo
-            public void actionPerformed(ActionEvent e) {
-                jogo.inicializar(matriz);
-                jogo.score = 0;
-                jogo.vitoria = 0;
-                jogo.derrota = 0;
-                numero_pontuacao.setForeground(Color.white);
-                atualizar();
-
-            }
-        });
 
         secreto.addMouseListener(new MouseAdapter() {                           //Evento do mouse para o easteregg
             public void mouseClicked(MouseEvent e) {
@@ -222,15 +256,15 @@ public class jogoprincipal extends JFrame implements KeyListener {
         setLayout(null);
         setSize(800, 600);
         setLocationRelativeTo(null);
-        addKeyListener(this);
+        addKeyListener(this);// coloca um keyListener no JFrame
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-
-                texto[i][j] = new JLabel();
+                
+                texto[i][j] = new JLabel();//inicializa os labels
                 texto[i][j].setSize(80, 80);
-                texto[i][j].setLocation(tamx + 30, tamy);
-                texto[i][j].setIcon(zero);
+                texto[i][j].setLocation(tamx + 30, tamy);// seta a posicao dos labels
+                texto[i][j].setIcon(zero);//seta os icones iniciais
                 add(texto[i][j]);
 
                 tamx += 100;
@@ -241,7 +275,7 @@ public class jogoprincipal extends JFrame implements KeyListener {
 
         }
 
-        JPanel Fundo2 = new JPanel();
+        JPanel Fundo2 = new JPanel();//painel de fundo da matriz de blocos
         Fundo2.setLayout(null);
         Fundo2.setSize(410, 410);
         Fundo2.setLocation(190, 85);
@@ -249,15 +283,41 @@ public class jogoprincipal extends JFrame implements KeyListener {
         Fundo2.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         add(Fundo2);
 
-        JPanel Fundo = new JPanel();
+        JPanel Fundo = new JPanel();// cor de fundo do JFrame
         Fundo.setLayout(null);
         Fundo.setBackground(fundo);
         Fundo.setSize(800, 600);
         add(Fundo);
 
-        jogo.inicializar(matriz);
-        atualizar();
+        jogo.inicializar(matriz);// seta valores iniciais para matriz
+        atualizar();// atualiza o jogo
     }
+    
+    void zerar(int matriz[][])//preenche matriz com 0
+    {
+        for(int i=0;i<4;i++)
+        {
+            for(int j=0;j<4;j++)
+            {
+                matriz[i][j]=0;
+            }
+        }
+    }
+    
+    
+    void mover_matriz (int matriz[][], int reserva[][])// passa valores de uma matriz para outra
+    {
+            for(int i=0;i<4;i++)
+        {
+            for(int j=0;j<4;j++)
+            {
+                reserva[i][j]=matriz[i][j];
+            }
+        }
+    }
+    
+    
+    
     //Funcao que verifica se ja ganhou ou perdeu o jogo, e chama a funcao que atualiza as cores dos blocos
     void atualizar() {
         int score = jogo.score;
@@ -768,10 +828,12 @@ public class jogoprincipal extends JFrame implements KeyListener {
     //Funcao Evento para a movimentacao pelas setas direcionais e as letras "w,a,s,d" 
     public void keyPressed(KeyEvent e) {
         int aux;
-        int score = jogo.score;
+        score = jogo.score;
         if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == 38) {          //Se movimento para cima
             aux = jogo.movimento_possivel(matriz, 1);
             if (aux != 1) {
+                flag=1;
+                   mover_matriz(matriz,matrizReserva);
                 jogo.score = score;
                 mover_cima(matriz);
             }
@@ -779,6 +841,8 @@ public class jogoprincipal extends JFrame implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == 37) {          //Se movimento para direita
             aux = jogo.movimento_possivel(matriz, 4);
             if (aux != 1) {
+                flag=1;
+                   mover_matriz(matriz,matrizReserva);
                 jogo.score = score;
                 mover_dir(matriz);
 
@@ -788,6 +852,8 @@ public class jogoprincipal extends JFrame implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == 39) {          //Se movimento para esquerda
             aux = jogo.movimento_possivel(matriz, 3);
             if (aux != 1) {
+                flag=1;
+                   mover_matriz(matriz,matrizReserva);
                 jogo.score = score;
                 mover_esq(matriz);
 
@@ -797,6 +863,8 @@ public class jogoprincipal extends JFrame implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == 40) {          //Se movimento para baixo
             aux = jogo.movimento_possivel(matriz, 2);
             if (aux != 1) {
+                flag=1;
+                   mover_matriz(matriz,matrizReserva);
                 jogo.score = score;
                 mover_baixo(matriz);
             }
