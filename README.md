@@ -12,8 +12,11 @@ Instruções do jogo:
   Obs: O jogo possui som.
   
   Inicialização:
-    Para inicializar o jogo basta abrir o netbeans, selecionar o arquivo do projeto, compilar e executar. 
+    Para executar o código que está no GIT, tem de pressionar o botão "Clone or Download" e baixar o arquivo .ZIP e descompactar, então basta abrir o netbeans, selecionar o arquivo do projeto, compilar e executar. 
+    Lembrando que é necessário ter na máquina o software Java SE.
     
     Boa sorte !
     Behold the wizard.
+    
+    Desenvolvedores: Christoper de Oliveira Souza e Beatriz Morelatto Lorente.
   
