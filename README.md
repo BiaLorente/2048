@@ -18,5 +18,5 @@ Instruções do jogo:
     Boa sorte !
     Behold the wizard.
     
-    Desenvolvedores: Christoper de Oliveira Souza e Beatriz Morelatto Lorente.
+    Desenvolvedores: Christopher de Oliveira Souza e Beatriz Morelatto Lorente.
   
