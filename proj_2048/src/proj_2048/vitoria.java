@@ -19,7 +19,6 @@ public class vitoria extends JFrame {
 
     JLabel saida = new JLabel();                                                //Label sair
     som p = new som();                                                          //instancia som
-
     JLabel fogos1 = new JLabel();                                               //instancia label dos fogos
     JLabel fogos2 = new JLabel();
     JLabel fogos3 = new JLabel();
@@ -34,8 +33,6 @@ public class vitoria extends JFrame {
         ImageIcon icon2 = new ImageIcon("fogo-de-artificio-imagem-animada-0092.gif");
         ImageIcon icon3 = new ImageIcon("fogo-de-artificio-imagem-animada-0089.gif");
         ImageIcon mago = new ImageIcon("mago_alegre.gif");                              //instancia imagem do gif do mago
-        ImageIcon jogar_pergunta = new ImageIcon("jogar.png");
-        ImageIcon sair_pergunta = new ImageIcon("sair.png");
         JButton jogar = new JButton();                                                  //nstancia botao jogar?
         JButton sair = new JButton();                                                   //instancia botao sair?
 
@@ -71,17 +68,24 @@ public class vitoria extends JFrame {
         wizard2.setLocation(465, 80);
         add(wizard2);
 
-       
-        sair.setSize(150, 40);                                                  //Configura botao sair
-       sair.setLocation(320, 320);
-       sair.setIcon(sair_pergunta);
-       add(sair);
+        sair.setSize(150, 25);                                                  //Configura botao sair
+        sair.setText("Sair?");
+        sair.setLocation(320, 320);
+        sair.setFocusable(false);
 
-       
-       jogar.setSize(150, 40);                                                   //Configura botao jogar
-       jogar.setLocation(130, 320);
-       jogar.setIcon(jogar_pergunta);
-       add(jogar);
+        sair.setBackground(fundo2);
+        sair.setForeground(Color.white);
+        sair.setBorderPainted(false);
+        add(sair);
+
+        jogar.setSize(150, 25);                                                 //Configura botao jogar
+        jogar.setText("jogar?");
+        jogar.setLocation(130, 320);
+        jogar.setFocusable(false);
+        jogar.setBackground(fundo2);
+        jogar.setForeground(Color.white);
+        jogar.setBorderPainted(false);
+        add(jogar);
 
         saida.setSize(300, 150);                                                //Configura Label da saida
         saida.setLocation(150, 120);

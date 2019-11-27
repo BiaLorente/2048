@@ -14,6 +14,7 @@ import java.awt.Color;
 import javax.swing.*;
 import java.awt.Font;
 import java.awt.event.*;
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.LineUnavailableException;
@@ -21,7 +22,9 @@ import javax.swing.border.EtchedBorder;
 
 //Instancia as labels, botões, Imagens e cores usadas
 public class jogoprincipal extends JFrame implements KeyListener {
-                                                //Declaracoes
+    consumir http = new consumir();
+      File file = new File("C:\\Users\\WAGNER\\Desktop\\arquivo\\arq.txt");
+                                            //Declaracoes
     JLabel[][] texto = new JLabel[4][4];
     JLabel pontuacao = new JLabel();            //label do texto pontucao
     JLabel numero_pontuacao = new JLabel();     //label do numero da pontuacao
@@ -30,19 +33,16 @@ public class jogoprincipal extends JFrame implements KeyListener {
     JLabel cima = new JLabel();                 //label
     JLabel esq = new JLabel();
     JLabel voltar = new JLabel();
-    JLabel restart = new JLabel();             // instancia label para o restart
-
     int score;
     JLabel dir = new JLabel();
     JLabel baixo = new JLabel();
     JLabel explosao = new JLabel();             //label para a explosao
     JLabel mago = new JLabel();                 //label para o mago
     jogo jogo = new jogo();                    // intancia o jogo
-  //  JButton reiniciar = new JButton();          //instancia o botao reiniciar
+    JButton reiniciar = new JButton();          //instancia o botao reiniciar
     int matriz[][] = new int[4][4];             // a matriz 4x4
     int matrizReserva[][]= new int [4][4];
     int flag=0;
-    Icon restartIcon = new ImageIcon("restart.png");            //imagem do botao restart
     Icon staff = new ImageIcon("Aqua Staff (2).png");       //imagem do cedro do mago
     Icon explosoes = new ImageIcon("explosao.gif");         //gif da explosao
     Icon seta = new ImageIcon("seta.png");                  //imagem da seta
@@ -129,26 +129,16 @@ public class jogoprincipal extends JFrame implements KeyListener {
         
         
         
-        restart.setSize(150, 40);                                                  //Configura reiniciar
-        restart.setIcon(restartIcon);
-        restart.setLocation(320, 512);
-        add(restart);
 
-        restart.addMouseListener(new MouseAdapter() {        //evento do click do mouse para dar restart    
-        public void mouseClicked(MouseEvent e) {
-               jogo.inicializar(matriz);
-                flag=0;
-                zerar(matrizReserva);
-                jogo.score = 0;
-                jogo.vitoria = 0;
-                jogo.derrota = 0;
-                numero_pontuacao.setForeground(Color.white);
-                atualizar();
-
-            }            
-        });
-        
-
+        reiniciar.setSize(150, 40);                                             //Configura o botao reinicar
+        reiniciar.setLocation(320, 512);
+        reiniciar.setFont(new Font("Courier New", 0, 16));
+        reiniciar.setText("Reiniciar");
+        reiniciar.setFocusable(false);
+        reiniciar.setBorderPainted(false);
+        reiniciar.setBackground(fundo2);
+        reiniciar.setForeground(Color.white);
+        add(reiniciar);
 
         secreto.setSize(50, 50);                                                //Configura o easteregg
         secreto.setLocation(650, 440);
@@ -241,6 +231,19 @@ public class jogoprincipal extends JFrame implements KeyListener {
         mago.setLocation(500, 350);
         add(mago);
 
+        reiniciar.addActionListener(new ActionListener() {                      //Evento do botao reiniciar para comecar o jogo de novo
+            public void actionPerformed(ActionEvent e) {
+                jogo.inicializar(matriz);
+                flag=0;
+                zerar(matrizReserva);
+                jogo.score = 0;
+                jogo.vitoria = 0;
+                jogo.derrota = 0;
+                numero_pontuacao.setForeground(Color.white);
+                atualizar();
+
+            }
+        });
 
         secreto.addMouseListener(new MouseAdapter() {                           //Evento do mouse para o easteregg
             public void mouseClicked(MouseEvent e) {
@@ -291,6 +294,8 @@ public class jogoprincipal extends JFrame implements KeyListener {
 
         jogo.inicializar(matriz);// seta valores iniciais para matriz
         atualizar();// atualiza o jogo
+        verificar();
+        
     }
     
     void zerar(int matriz[][])//preenche matriz com 0
@@ -825,6 +830,103 @@ public class jogoprincipal extends JFrame implements KeyListener {
         Thread f = new Thread(g);
         f.start();//executar thread
     }
+    void verificar(){
+     Runnable ver = new Runnable() {
+            public void run() {
+                String ver="";
+                while(true)
+                {
+                    if(file.length()!=0)
+                    {
+                        
+                        try {
+                            ver=http.sendGet();
+                        } catch (Exception ex) {
+                            Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        if(!ver.equals(""))
+                        System.out.println(ver);
+                        if(ver.equals("esquerda"))
+                        {
+                int aux;
+                score = jogo.score;                                         //atualiza score
+                aux = jogo.movimento_possivel(matriz, 4);                       //verifica se  possivel o movimento para esquerda
+                if (aux != 1) {
+                    flag=1;
+                    mover_matriz(matriz,matrizReserva);
+                    jogo.score = score;                                         //atualiza score
+                    mover_dir(matriz);                                          //faz o movimento para esquerda
+
+                }
+                        }
+                        else
+                        {
+                            if(ver.equals("direita"))
+                            {
+                int aux;
+                score = jogo.score;                                         //atualiza score
+                aux = jogo.movimento_possivel(matriz, 3);                       //verifica se  possivel o movimento para direita
+                if (aux != 1) {
+                    flag=1;
+                       mover_matriz(matriz,matrizReserva);
+                    jogo.score = score;                                         //atualiza score
+                    mover_esq(matriz);                                          //faz o movimento para direita
+     
+                }
+                            }
+                            else
+                            {
+                                if(ver.equals("baixo"))
+                                {
+                                                    int aux;
+                score = jogo.score;                                         //atualiza score
+                aux = jogo.movimento_possivel(matriz, 2);                       //verifica se  possivel o movimento para baixo
+                if (aux != 1) {
+                    flag=1;
+                    mover_matriz(matriz,matrizReserva);
+                    jogo.score = score;                                         //atualiza score
+                    mover_baixo(matriz);                                        //faz o movimento para baixo
+
+                }
+                                }
+                                else
+                                {
+                                    if(ver.equals("cima"))
+                                    {
+                int aux;
+                score = jogo.score;                                         //atualiza score
+                aux = jogo.movimento_possivel(matriz, 1);                       //verifica se  possivel o movimento para cima 
+                if (aux != 1) {
+                    mover_matriz(matriz,matrizReserva);
+                    jogo.score = score;                                         //atualiza o score
+                    mover_cima(matriz);
+
+
+                }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
+            }
+        };
+        Thread loop = new Thread(ver);
+        loop.start();
+    }
+    
+    
+    
+    
+    
+    
+    
     //Funcao Evento para a movimentacao pelas setas direcionais e as letras "w,a,s,d" 
     public void keyPressed(KeyEvent e) {
         int aux;
