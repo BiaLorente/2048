@@ -23,7 +23,7 @@ import javax.swing.border.EtchedBorder;
 //Instancia as labels, botões, Imagens e cores usadas
 public class jogoprincipal extends JFrame implements KeyListener {
     consumir http = new consumir();
-      File file = new File("C:\\Users\\WAGNER\\Desktop\\arquivo\\arq.txt");
+      File file = new File("C:\\Users\\Emily\\Desktop\\arquivo\\arq.txt");
                                             //Declaracoes
     JLabel[][] texto = new JLabel[4][4];
     JLabel pontuacao = new JLabel();            //label do texto pontucao
@@ -834,6 +834,7 @@ public class jogoprincipal extends JFrame implements KeyListener {
      Runnable ver = new Runnable() {
             public void run() {
                 String ver="";
+                
                 while(true)
                 {
                     if(file.length()!=0)
@@ -845,7 +846,6 @@ public class jogoprincipal extends JFrame implements KeyListener {
                             Logger.getLogger(jogoprincipal.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         if(!ver.equals(""))
-                        System.out.println(ver);
                         if(ver.equals("esquerda"))
                         {
                 int aux;
