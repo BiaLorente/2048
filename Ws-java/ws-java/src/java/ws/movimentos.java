@@ -51,7 +51,6 @@ public class movimentos extends arquivo{
     @GET
     @Produces("application/json")
     public String getXml() throws FileNotFoundException, IOException, InterruptedException{
-                System.out.println("aaaaaaaaaaaa");
         String saida = Read();
         Write("");
              return saida;
