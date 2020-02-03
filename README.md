@@ -20,7 +20,7 @@
     To run the application on your phone, you have to unzip the "Ws-java.rar" folder, then open this folder in Android Studio and put your machine's IP, and in the Code that is in Netbeans you have to change the file path "file.txt".
     Good Luck !
     
-    Behold the wizard.
+  Behold the wizard.
     
-    ## Developers: Christopher de Oliveira Souza e Beatriz M Lorente.
+## Developers: Christopher de Oliveira Souza e Beatriz M Lorente.
   
